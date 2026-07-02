@@ -1,0 +1,19 @@
+#Secrets 
+.env
+*.key
+*.pem
+
+#Credentials
+*.p12
+*.pfx
+
+#Secret directories: 
+secrets/
+
+#OS junk 
+.DS_Store
+
+
+
+#Exceptions:
+!*.env.example 
