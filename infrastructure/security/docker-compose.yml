@@ -1,0 +1,26 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    restart: always
+    environment:
+      - DISABLE_ONLINE_API=false
+      - DOWNLOAD_HUB_DATA=true
+      - DISABLE_GEOIP=false
+      - COLLECTIONS=crowdsecurity/linux crowdsecurity/nginx-proxy-manager crowdsecurity/http-cve crowdsecurity/whitelist-good-actors
+      - GID=1000
+    volumes:
+      - ./config:/etc/crowdsec
+      - ./data:/var/lib/crowdsec/data
+      - /var/log:/var/log:ro
+      - /root/Gnode/infrastructure/network/data/logs:/tmp/npm_logs:ro
+      - ./data/GeoLite2-ASN.mmdb:/var/lib/crowdsec/data/GeoLite2-ASN.mmdb:ro
+      - ./data/GeoLite2-City.mmdb:/var/lib/crowdsec/data/GeoLite2-City.mmdb:ro
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.12
+
+networks:
+  main_net:
+    external: true
+    name: main_net
