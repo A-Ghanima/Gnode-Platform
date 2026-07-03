@@ -1,0 +1,75 @@
+services:
+  nextcloud:
+    image: nextcloud:stable-apache
+    container_name: nextcloud
+    restart: always
+    depends_on:
+      - nextcloud_database
+      - nextcloud_redis
+    volumes:
+      - ./nextcloud_data:/var/www/html
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - REDIS_HOST=${REDIS_HOST}
+      - APCU_ENABLED=1
+      - PHP_UPLOAD_LIMIT=10G
+      - PHP_MEMORY_LIMIT=2G
+
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_DOMAIN}
+      - OVERWRITEHOST=${NEXTCLOUD_DOMAIN}
+      - OVERWRITECLIURL=https://${NEXTCLOUD_DOMAIN}
+      - OVERWRITEPROTOCOL=https
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.31
+
+
+  nextcloud_database:
+    image: mariadb:10.11
+    container_name: nextcloud_database
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - ./db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.20
+
+
+  nextcloud_redis:
+    image: redis:alpine
+    container_name: nextcloud_redis
+    restart: always
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.21
+
+
+  nextcloud-cron:
+    image: nextcloud:stable-apache
+    container_name: nextcloud-cron
+    restart: always
+    user: www-data
+    volumes:
+      - ./nextcloud_data:/var/www/html
+    entrypoint: /bin/sh -c "while true; do php -f /var/www/html/cron.php; sleep 300; done"
+    depends_on:
+      - nextcloud_database
+      - nextcloud_redis
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.22
+
+
+networks:
+  main_net:
+    external: true
+    name: main_net
