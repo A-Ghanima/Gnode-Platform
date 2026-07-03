@@ -1,0 +1,62 @@
+services:
+  immich-server:
+    container_name: immich-server
+    image: ghcr.io/immich-app/immich-server:release
+    restart: always
+    depends_on:
+      - immich-database
+      - immich-redis
+    environment:
+      - DB_HOSTNAME=${DATABASE_HOST}
+      - DB_USERNAME=${DATABASE_USERNAME}
+      - DB_PASSWORD=${DATABASE_PASSWORD}
+      - DB_DATABASE_NAME=${DATABASE_NAME}
+      - REDIS_HOSTNAME=${REDIS_HOST}
+      - TZ=${TZ}
+      - IMMICH_SERVER_URL=http://immich-server:2283
+      - PUBLIC_URL=${DOMAIN}
+    volumes:
+      - ./library:/usr/src/app/upload
+      - ../../apps/nextcloud/nextcloud_data/data/ace/files:/external/nextcloud/ace:ro
+      - ../../apps/nextcloud/nextcloud_data/data/ahmed/files:/external/nextcloud/ahmed:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.52
+
+  immich-ml:
+    container_name: immich-ml
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    restart: always
+    volumes:
+      - ./model-cache:/cache
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.23
+
+  immich-redis:
+    container_name: immich-redis
+    image: redis:7-alpine
+    restart: always
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.24
+
+  immich-database:
+    container_name: immich-database
+    image: tensorchord/pgvecto-rs:pg16-v0.3.0
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.25
+
+networks:
+  main_net:
+    external: true
+    name: main_net
