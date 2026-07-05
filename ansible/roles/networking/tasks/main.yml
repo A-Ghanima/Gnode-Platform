@@ -1,4 +1,4 @@
-- name: Create a docker network
+- name: Create main_net docker network
   community.docker.docker_network:
     name: "{{ main_net }}"
     driver: bridge
