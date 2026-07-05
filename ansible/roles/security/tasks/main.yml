@@ -1,0 +1,4 @@
+- name: Deploy crowdsec
+  community.docker.docker_compose_v2:
+    project_src: "{{ gnode_platform }}/infrastructure/security"
+    state: present

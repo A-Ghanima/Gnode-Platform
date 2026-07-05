@@ -12,7 +12,8 @@ secrets/
 
 #OS junk 
 .DS_Store
-
+**/config/
+**/data/
 
 
 #Exceptions:
