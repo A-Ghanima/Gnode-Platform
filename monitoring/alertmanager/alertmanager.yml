@@ -14,4 +14,3 @@ receivers:
       - bot_token: ## add your token
         chat_id: ## add your chat id
         message: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
-

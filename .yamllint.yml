@@ -1,7 +1,11 @@
 extends: default
 rules:
   document-start: disable
+  truthy: disable
+  comments: disable
   line-length:
     max: 150
   empty-lines:
     max: 2
+ignore: |
+  apps/vaultwarden/secrets.enc.yaml
