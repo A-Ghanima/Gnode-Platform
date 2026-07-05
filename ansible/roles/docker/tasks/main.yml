@@ -1,6 +1,6 @@
 - name: Install Docker packages
   apk:
-    name: 
+    name:
       - docker
       - docker-cli-compose
       - docker-openrc
@@ -8,8 +8,7 @@
     update_cache: true
 
 - name: Enable and start Docker service
-  service: 
+  service:
     name: docker
     state: started
     enabled: true
-

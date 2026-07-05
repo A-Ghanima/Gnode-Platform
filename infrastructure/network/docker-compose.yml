@@ -14,12 +14,11 @@ services:
       main_net:
         ipv4_address: 10.5.0.10
 
-
   dns-updater:
     image: favonia/cloudflare-ddns:latest
     container_name: ddns
     restart: always
-    environment: 
+    environment:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - DOMAINS=${DDNS_DOMAINS}
       - PROXIED=true
