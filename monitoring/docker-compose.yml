@@ -111,6 +111,38 @@ services:
       main_net:
         ipv4_address: 10.5.0.87
 
+  smartctl-exporter:
+    image: prometheuscommunity/smartctl-exporter:latest
+    container_name: smartctl-exporter
+    restart: always
+    volumes:
+      - /run/udev:/run/udev:ro
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.90
+
+  mariadb-exporter:
+    image: prom/mysqld-exporter:latest
+    container_name: mariadb-exporter
+    restart: always
+    command:
+      - '--config.my-cnf=/etc/mysql/.my.cnf'
+    volumes:
+      - ./exporters/.my.cnf:/etc/mysql/.my.cnf:ro
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.93
+
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-exporter
+    restart: always
+    command:
+      - '--nginx.scrape-uri=http://10.5.0.10:8080/nginx_status'
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.88
+
 volumes:
   prometheus_data:
   loki_data:
