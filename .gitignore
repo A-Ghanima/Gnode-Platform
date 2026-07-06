@@ -19,3 +19,4 @@ secrets/
 #Exceptions:
 !*.env.example 
 secrets.yaml
+monitoring/exporters/.my.cnf
