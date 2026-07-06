@@ -23,23 +23,23 @@ This repository contains everything needed to rebuild the entire platform from s
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                    gnode server                      │
-│                  Alpine Linux                        │
-│                                                      │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────┐  │
-│  │ Security │  │ Network  │  │   Applications   │  │
-│  │ CrowdSec │  │  NPM     │  │  Nextcloud       │  │
-│  │          │  │  DDNS    │  │  Immich          │  │
-│  └──────────┘  └──────────┘  │  Vaultwarden     │  │
+│                    gnode server                     │
+│                    Alpine Linux                     │
+│                                                     │
+│  ┌──────────┐  ┌──────────┐   ┌──────────────────┐  │
+│  │ Security │  │ Network  │   │  Applications    │  │
+│  │ CrowdSec │  │  NPM     │   │  Nextcloud       │  │
+│  │          │  │  DDNS    │   │  Immich          │  │
+│  └──────────┘  └──────────┘   │  Vaultwarden     │  │
 │                               └──────────────────┘  │
 │  ┌─────────────────────────────────────────────┐    │
-│  │              Monitoring (PLG Stack)          │    │
+│  │              Monitoring (PLG Stack)         │    │
 │  │  Prometheus · Loki · Grafana · Alertmanager │    │
 │  │  Node Exporter · cAdvisor · Promtail        │    │
 │  │  Blackbox Exporter                          │    │
 │  └─────────────────────────────────────────────┘    │
-│                                                      │
-│              Docker Network: main_net                │
+│                                                     │
+│              Docker Network: main_net               │
 │              Subnet: 10.5.0.0/24                    │
 └─────────────────────────────────────────────────────┘
 ```
@@ -204,12 +204,10 @@ All secrets are managed with **SOPS + age**. No plaintext credentials exist in t
 
 ## Roadmap
 
-- [ ] Migrate remaining services from `/root/projects` to Gnode-Platform
 - [ ] Complete `bots/` stack 
 - [ ] Add `shellcheck` workflow once shell scripts are added
 - [ ] Add Docker build + GHCR publish workflow for custom images
 - [ ] Complete documentation (runbooks, disaster recovery, postmortems)
-- [ ] Jenkins pipeline as a separate demo
 
 ---
 
