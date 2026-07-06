@@ -20,3 +20,4 @@ secrets/
 !*.env.example 
 secrets.yaml
 monitoring/exporters/.my.cnf
+.data/
