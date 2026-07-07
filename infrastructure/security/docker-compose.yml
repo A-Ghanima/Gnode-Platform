@@ -3,6 +3,8 @@ services:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
     restart: always
+    labels:
+      - "gnode.group=infrastructure"
     environment:
       - DISABLE_ONLINE_API=false
       - DOWNLOAD_HUB_DATA=true

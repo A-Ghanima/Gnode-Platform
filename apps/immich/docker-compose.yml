@@ -3,6 +3,8 @@ services:
     container_name: immich-server
     image: ghcr.io/immich-app/immich-server:release
     restart: always
+    labels:
+      - "gnode.group=apps"
     depends_on:
       - immich-database
       - immich-redis
@@ -28,6 +30,8 @@ services:
     container_name: immich-ml
     image: ghcr.io/immich-app/immich-machine-learning:release
     restart: always
+    labels:
+      - "gnode.group=backend"
     volumes:
       - ./model-cache:/cache
     networks:
@@ -38,6 +42,8 @@ services:
     container_name: immich-redis
     image: redis:7-alpine
     restart: always
+    labels:
+      - "gnode.group=backend"
     networks:
       main_net:
         ipv4_address: 10.5.0.24
@@ -46,6 +52,8 @@ services:
     container_name: immich-database
     image: tensorchord/pgvecto-rs:pg16-v0.3.0
     restart: always
+    labels:
+      - "gnode.group=database"
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}

@@ -4,6 +4,8 @@ services:
     container_name: gnode-dashboard-backend
     restart: always
     env_file: ./backend/.env
+    labels:
+      - "gnode.group=dashboard"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
     networks:

@@ -3,6 +3,8 @@ services:
     image: vaultwarden/server:latest
     container_name: vaultwarden
     restart: always
+    labels:
+      - "gnode.group=apps"
     environment:
       - DOMAIN=${VAULT_DOMAIN}
       - ROCKET_PORT=80
