@@ -10,7 +10,7 @@ services:
       - ROCKET_PORT=80
       - SIGNUPS_ALLOWED=false #change this if you want someone to be able to make an account
     volumes:
-      - ./vaultwarden:/data
+      - ../../.data/vaultwarden:/data
     networks:
       main_net:
         ipv4_address: 10.5.0.50

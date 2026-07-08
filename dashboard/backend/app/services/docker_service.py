@@ -1,5 +1,5 @@
 import docker
-from docker.errors import DockerException, NotFound
+from docker.errors import NotFound
 from typing import List, Dict, Any
 
 client = docker.from_env()
@@ -14,6 +14,7 @@ def get_all_containers() -> List[Dict[str, Any]]:
             "status": c.status,
             "image": c.image.tags[0] if c.image.tags else "unknown",
             "created": c.attrs["Created"],
+            "group": c.labels.get("gnode.group", "other"),
         })
     return result
 

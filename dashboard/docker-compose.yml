@@ -12,6 +12,18 @@ services:
       main_net:
         ipv4_address: 10.5.0.100
 
+  frontend:
+    build: ./frontend
+    container_name: gnode-dashboard-frontend
+    restart: always
+    labels:
+      - "gnode.group=dashboard"
+    depends_on:
+      - backend
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.101
+
 networks:
   main_net:
     external: true

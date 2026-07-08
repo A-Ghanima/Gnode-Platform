@@ -10,8 +10,8 @@ services:
       - '81:81'
       - '443:443'
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - ../../.data/npm/data:/data
+      - ../../.data/npm/letsencrypt:/etc/letsencrypt
     networks:
       main_net:
         ipv4_address: 10.5.0.10
