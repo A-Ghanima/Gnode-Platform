@@ -9,7 +9,7 @@ services:
       - nextcloud_database
       - nextcloud_redis
     volumes:
-      - ./nextcloud_data:/var/www/html
+      - ../../.data/nextcloud:/var/www/html
     environment:
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -19,7 +19,6 @@ services:
       - APCU_ENABLED=1
       - PHP_UPLOAD_LIMIT=10G
       - PHP_MEMORY_LIMIT=2G
-
       - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_DOMAIN}
       - OVERWRITEHOST=${NEXTCLOUD_DOMAIN}
       - OVERWRITECLIURL=https://${NEXTCLOUD_DOMAIN}
@@ -37,7 +36,7 @@ services:
       - "gnode.group=database"
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:
-      - ./db_data:/var/lib/mysql
+      - ../../.data/db_data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -67,7 +66,7 @@ services:
       - "gnode.group=backend"
     user: www-data
     volumes:
-      - ./nextcloud_data:/var/www/html
+      - ../../.data/nextcloud:/var/www/html
     entrypoint: /bin/sh -c "while true; do php -f /var/www/html/cron.php; sleep 300; done"
     depends_on:
       - nextcloud_database

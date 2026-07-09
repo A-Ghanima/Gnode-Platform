@@ -22,3 +22,5 @@ secrets.yaml
 monitoring/exporters/.my.cnf
 .data/
 dashboard/backend/.env
+apps/immich/postgres/
+.oldcachenot/
