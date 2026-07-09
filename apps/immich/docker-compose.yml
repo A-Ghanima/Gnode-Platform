@@ -18,9 +18,9 @@ services:
       - IMMICH_SERVER_URL=http://immich-server:2283
       - PUBLIC_URL=${DOMAIN}
     volumes:
-      - ./library:/usr/src/app/upload
-      - ../../apps/nextcloud/nextcloud_data/data/ace/files:/external/nextcloud/ace:ro
-      - ../../apps/nextcloud/nextcloud_data/data/ahmed/files:/external/nextcloud/ahmed:ro
+      - ../../.data/nextcloud/data/data/ace/files:/external/nextcloud/ace:ro
+      - ../../.data/nextcloud/data/data/ahmed/files:/external/nextcloud/ahmed:ro
+      - ../../.data/library:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     networks:
       main_net:
@@ -33,7 +33,7 @@ services:
     labels:
       - "gnode.group=backend"
     volumes:
-      - ./model-cache:/cache
+      - ../../.data/model-cache:/cache
     networks:
       main_net:
         ipv4_address: 10.5.0.23
@@ -50,7 +50,7 @@ services:
 
   immich-database:
     container_name: immich-database
-    image: tensorchord/pgvecto-rs:pg16-v0.3.0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0
     restart: always
     labels:
       - "gnode.group=database"
@@ -59,7 +59,7 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ../../.data/postgres:/var/lib/postgresql/data
     networks:
       main_net:
         ipv4_address: 10.5.0.25
