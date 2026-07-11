@@ -16,12 +16,15 @@ secrets/
 **/data/
 
 
-#Exceptions:
-!*.env.example 
+
 secrets.yaml
 monitoring/exporters/.my.cnf
 .data/
-dashboard/backend/.env
 apps/immich/postgres/
 .oldcachenot/
-bots/telegram/db-backup/.env
+
+
+
+
+#Exceptions:
+!*.env.example
