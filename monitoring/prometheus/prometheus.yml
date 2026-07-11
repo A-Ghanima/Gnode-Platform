@@ -24,8 +24,8 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-          - https://CHANGE_ME_DOMAIN_1
-          - https://CHANGE_ME_DOMAIN_2
+          - https://nc.thegnode.space
+          - https://photos.thegnode.space
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
