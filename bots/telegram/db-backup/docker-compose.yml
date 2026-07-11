@@ -1,0 +1,18 @@
+services:
+  db-backup:
+    build: .
+    container_name: gnode-db-backup
+    restart: always
+    env_file: .env
+    labels:
+      - "gnode.group=infrastructure"
+    volumes:
+      - ../../../.data/vaultwarden:/vaultwarden-data:ro
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.70
+
+networks:
+  main_net:
+    external: true
+    name: main_net
