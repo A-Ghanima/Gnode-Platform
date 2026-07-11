@@ -16,15 +16,6 @@ mysqldump --no-defaults --ssl=false \
   | gzip > $BACKUP_DIR/nextcloud-db-$TIMESTAMP.sql.gz
 echo "Nextcloud DB done."
 
-# Immich PostgreSQL
-echo "Backing up Immich database..."
-PGPASSWORD=$IMMICH_DB_PASSWORD pg_dump \
-  -h $IMMICH_DB_HOST \
-  -U $IMMICH_DB_USER \
-  $IMMICH_DB_NAME \
-  | gzip > $BACKUP_DIR/immich-db-$TIMESTAMP.sql.gz
-echo "Immich DB done."
-
 # Vaultwarden SQLite
 echo "Backing up Vaultwarden..."
 cp /vaultwarden-data/db.sqlite3 $BACKUP_DIR/vaultwarden-$TIMESTAMP.sqlite3

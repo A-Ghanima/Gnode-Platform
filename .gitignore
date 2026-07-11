@@ -24,3 +24,4 @@ monitoring/exporters/.my.cnf
 dashboard/backend/.env
 apps/immich/postgres/
 .oldcachenot/
+bots/telegram/db-backup/.env

@@ -32,7 +32,7 @@ def send_message(text):
     )
 
 if __name__ == '__main__':
-    files = sorted(glob.glob(f'{BACKUP_DIR}/*.gz') + glob.glob(f'{BACKUP_DIR}/*.sqlite3.gz'))
+    files = sorted(glob.glob(f'{BACKUP_DIR}/*.gz'))
     
     if not files:
         send_message('❌ No backup files found!')
