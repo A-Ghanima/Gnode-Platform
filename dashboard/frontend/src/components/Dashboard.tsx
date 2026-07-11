@@ -10,6 +10,12 @@ interface Container {
   group: string
 }
 
+interface Metrics {
+  cpu_percent: number
+  ram_mb: number
+  ram_percent: number
+}
+
 interface Props {
   token: string
   onLogout: () => void
@@ -19,6 +25,7 @@ const GROUP_ORDER = ['dashboard', 'infrastructure', 'monitoring', 'apps', 'backe
 
 export default function Dashboard({ token, onLogout }: Props) {
   const [containers, setContainers] = useState<Container[]>([])
+  const [metrics, setMetrics] = useState<Record<string, Metrics>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -28,8 +35,7 @@ export default function Dashboard({ token, onLogout }: Props) {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       if (res.status === 401) { onLogout(); return }
-      const data = await res.json()
-      setContainers(data)
+      setContainers(await res.json())
     } catch {
       setError('Failed to fetch containers')
     } finally {
@@ -37,10 +43,21 @@ export default function Dashboard({ token, onLogout }: Props) {
     }
   }
 
+  const fetchMetrics = async () => {
+    try {
+      const res = await fetch('/api/v1/metrics/containers', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      if (res.ok) setMetrics(await res.json())
+    } catch {}
+  }
+
   useEffect(() => {
     fetchContainers()
-    const interval = setInterval(fetchContainers, 10000)
-    return () => clearInterval(interval)
+    fetchMetrics()
+    const c = setInterval(fetchContainers, 10000)
+    const m = setInterval(fetchMetrics, 30000)
+    return () => { clearInterval(c); clearInterval(m) }
   }, [])
 
   const grouped = GROUP_ORDER.reduce((acc, group) => {
@@ -75,7 +92,13 @@ export default function Dashboard({ token, onLogout }: Props) {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {items.map(c => (
-                <ContainerCard key={c.id} container={c} token={token} onRefresh={fetchContainers} />
+                <ContainerCard
+                  key={c.id}
+                  container={c}
+                  token={token}
+                  metrics={metrics[c.name] || null}
+                  onRefresh={fetchContainers}
+                />
               ))}
             </div>
           </div>

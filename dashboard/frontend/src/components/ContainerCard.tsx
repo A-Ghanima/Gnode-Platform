@@ -6,16 +6,25 @@ interface Container {
   status: string
   image: string
   created: string
+  group: string
+}
+
+interface Metrics {
+  cpu_percent: number
+  ram_mb: number
+  ram_percent: number
 }
 
 interface Props {
   container: Container
   token: string
+  metrics: Metrics | null
   onRefresh: () => void
 }
 
-export default function ContainerCard({ container, token, onRefresh }: Props) {
+export default function ContainerCard({ container, token, metrics, onRefresh }: Props) {
   const [loading, setLoading] = useState(false)
+  const isRunning = container.status === 'running'
 
   const action = async (act: string) => {
     setLoading(true)
@@ -30,8 +39,6 @@ export default function ContainerCard({ container, token, onRefresh }: Props) {
     }
   }
 
-  const isRunning = container.status === 'running'
-
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
       <div className="flex items-start justify-between mb-3">
@@ -40,15 +47,30 @@ export default function ContainerCard({ container, token, onRefresh }: Props) {
           <p className="text-gray-500 text-xs mt-1 truncate max-w-48">{container.image}</p>
         </div>
         <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-          isRunning
-            ? 'bg-green-900 text-green-400'
-            : 'bg-red-900 text-red-400'
+          isRunning ? 'bg-green-900 text-green-400' : 'bg-red-900 text-red-400'
         }`}>
           {container.status}
         </span>
       </div>
 
-      <div className="flex gap-2 mt-4">
+      {isRunning && metrics && (
+        <div className="grid grid-cols-3 gap-2 mb-3">
+          <div className="bg-gray-800 rounded-lg p-2 text-center">
+            <p className="text-xs text-gray-500">CPU</p>
+            <p className="text-sm font-medium text-white">{metrics.cpu_percent}%</p>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-2 text-center">
+            <p className="text-xs text-gray-500">RAM</p>
+            <p className="text-sm font-medium text-white">{metrics.ram_mb}MB</p>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-2 text-center">
+            <p className="text-xs text-gray-500">MEM%</p>
+            <p className="text-sm font-medium text-white">{metrics.ram_percent}%</p>
+          </div>
+        </div>
+      )}
+
+      <div className="flex gap-2">
         <button
           onClick={() => action('restart')}
           disabled={loading || !isRunning}
