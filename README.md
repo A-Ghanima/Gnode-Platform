@@ -16,7 +16,7 @@ This repository contains everything needed to rebuild the entire platform from s
 
 ## Platform Architecture
 
-\`\`\`
+```
 ┌─────────────────────────────────────────────────────────────┐
 │                        gnode server                         │
 │                        Alpine Linux                         │
@@ -43,7 +43,7 @@ This repository contains everything needed to rebuild the entire platform from s
 │              Docker Network: main_net                       │
 │              Subnet: 10.5.0.0/24                            │
 └─────────────────────────────────────────────────────────────┘
-\`\`\`
+```
 
 ## Tech Stack
 
@@ -65,7 +65,7 @@ This repository contains everything needed to rebuild the entire platform from s
 
 ## Repository Structure
 
-\`\`\`
+```
 Gnode-Platform/
 ├── ansible/                    # Server provisioning automation
 │   ├── inventory/              # Host definitions + group_vars
@@ -101,7 +101,7 @@ Gnode-Platform/
 ├── .sops.yaml                  # SOPS encryption config (age)
 ├── .yamllint.yml               # YAML linting rules
 └── Makefile                    # make help, make status
-\`\`\`
+```
 
 ## Services & IP Map
 
@@ -155,19 +155,19 @@ The Gnode DevOps Dashboard is a production-grade internal control plane built fr
 - Alpine Linux server (or any Linux distro)
 - Docker + Docker Compose installed
 - Ansible 2.18+
-- \`age\` + \`SOPS\` installed
-- \`community.docker\` Ansible collection
+- `age` + `SOPS` installed
+- `community.docker` Ansible collection
 
 ### 1. Clone the repository
 
-\`\`\`bash
+```bash
 git clone https://github.com/A-Ghanima/Gnode-Platform.git
 cd Gnode-Platform
-\`\`\`
+```
 
 ### 2. Set up secrets
 
-\`\`\`bash
+```bash
 age-keygen -o ~/.age-key.txt
 cp apps/nextcloud/.env.example apps/nextcloud/.env
 cp apps/immich/.env.example apps/immich/.env
@@ -175,31 +175,31 @@ cp apps/vaultwarden/.env.example apps/vaultwarden/.env
 cp infrastructure/network/.env.example infrastructure/network/.env
 cp monitoring/.env.example monitoring/.env
 cp dashboard/backend/.env.example dashboard/backend/.env
-\`\`\`
+```
 
 ### 3. Bootstrap the platform
 
-\`\`\`bash
+```bash
 cd ansible
 ansible-playbook -i inventory/hosts.yml playbooks/bootstrap.yml
-\`\`\`
+```
 
 ## Secrets Management
 
 All secrets are managed with **SOPS + age**. No plaintext credentials exist in this repository.
 
-- \`.env\` files are gitignored — copy from \`.env.example\` and populate locally
+- `.env` files are gitignored — copy from `.env.example` and populate locally
 - Sensitive values that need to be in Git are encrypted with SOPS before committing
 - A Gitleaks pre-commit hook blocks any commit containing unencrypted secrets
-- The \`security-scan.yml\` GitHub Actions workflow runs Gitleaks on every push to main
+- The `security-scan.yml` GitHub Actions workflow runs Gitleaks on every push to main
 
 ## CI/CD
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| \`yamllint.yml\` | Push to main | Validates all YAML files |
-| \`security-scan.yml\` | Push to main | Scans for leaked secrets (Gitleaks) |
-| \`trivy.yml\` | Push to main | CVE scanning for Docker images |
+| `yamllint.yml` | Push to main | Validates all YAML files |
+| `security-scan.yml` | Push to main | Scans for leaked secrets (Gitleaks) |
+| `trivy.yml` | Push to main | CVE scanning for Docker images |
 
 ## Roadmap
 
