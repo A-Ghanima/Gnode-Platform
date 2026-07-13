@@ -26,9 +26,9 @@ services:
       - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
       - DOMAINS=${DDNS_DOMAINS}
       - PROXIED=true
-      - UPDATE_CRON=@every 15m
-      - IPV4_PROVIDER=cloudflare.trace
-      - IPV6_PROVIDER=none
+      - UPDATE_CRON=@every 60m
+      - IP4_PROVIDER=cloudflare.trace
+      - IP6_PROVIDER=none
     network_mode: host
 
 networks:
