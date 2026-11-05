@@ -206,7 +206,7 @@ All secrets are managed with **SOPS + age**. No plaintext credentials exist in t
 
 - [x] Complete bots/ stack — automated DB backup bot with Telegram delivery
 - [x] DevOps dashboard with container management and real-time metrics
-- [ ] Add shellcheck workflow for shell scripts
+- [x] Add shellcheck workflow for shell scripts
 - [x] Docker Socket Proxy to harden dashboard security
 - [ ] Complete documentation (runbooks, disaster recovery, postmortems)
 - [ ] Kubernetes migration path
