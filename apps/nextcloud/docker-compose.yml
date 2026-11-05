@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: nextcloud:stable-apache
+    image: nextcloud:35-apache
     container_name: nextcloud
     restart: always
     labels:
@@ -59,7 +59,7 @@ services:
 
 
   nextcloud-cron:
-    image: nextcloud:stable-apache
+    image: nextcloud:35-apache
     container_name: nextcloud-cron
     restart: always
     labels:
