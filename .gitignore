@@ -29,3 +29,7 @@ apps/immich/postgres/
 #Exceptions:
 !*.env.example
 .oldcachenot/
+tools/adguard_conf/
+tools/adguard_work/
+tools/adguard_conf/
+tools/adguard_work/
