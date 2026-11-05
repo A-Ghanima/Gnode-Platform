@@ -28,3 +28,4 @@ apps/immich/postgres/
 
 #Exceptions:
 !*.env.example
+.oldcachenot/
