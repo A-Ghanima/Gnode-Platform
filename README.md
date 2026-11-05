@@ -5,6 +5,8 @@ Production-grade self-hosted infrastructure platform — built, operated, and au
 ![CI](https://github.com/A-Ghanima/Gnode-Platform/actions/workflows/yamllint.yml/badge.svg)
 ![Security](https://github.com/A-Ghanima/Gnode-Platform/actions/workflows/security-scan.yml/badge.svg)
 ![Trivy](https://github.com/A-Ghanima/Gnode-Platform/actions/workflows/trivy.yml/badge.svg)
+![ShellCheck](https://github.com/A-Ghanima/Gnode-Platform/actions/workflows/shellcheck.yml/badge.svg)
+
 
 ## Overview
 
