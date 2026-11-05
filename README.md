@@ -37,7 +37,7 @@ This repository contains everything needed to rebuild the entire platform from s
 │  │              DevOps Dashboard                       │    │
 │  │  FastAPI backend · React + TypeScript frontend      │    │
 │  │  JWT auth · Docker stats · Prometheus metrics       │    │
-│  │  Live at: dash.thegnode.space                       │    │
+│  │  Live at: dash.gnode.fun                       │    │
 │  └─────────────────────────────────────────────────────┘    │
 │                                                             │
 │              Docker Network: main_net                       │
@@ -79,7 +79,7 @@ Gnode-Platform/
 ├── bots/
 │   └── telegram/
 │       └── db-backup/          # Automated DB backup bot (Telegram delivery)
-├── dashboard/                  # DevOps dashboard — live at dash.thegnode.space
+├── dashboard/                  # DevOps dashboard — live at dash.gnode.fun
 │   ├── backend/                # FastAPI REST API with JWT auth + Docker stats
 │   └── frontend/               # React + TypeScript + Tailwind
 ├── infrastructure/             # Core platform services
@@ -132,6 +132,7 @@ Gnode-Platform/
 | MariaDB Exporter | mariadb-exporter | 10.5.0.93 |
 | Dashboard Backend | gnode-dashboard-backend | 10.5.0.100 |
 | Dashboard Frontend | gnode-dashboard-frontend | 10.5.0.101 |
+| Docker Socket Proxy | gnode-dashboard-socket-proxy | 10.5.0.102 |
 
 ## Dashboard
 
@@ -146,7 +147,7 @@ The Gnode DevOps Dashboard is a production-grade internal control plane built fr
 
 **Tech**: FastAPI (Python) · React + TypeScript · Tailwind CSS · Docker multi-stage build · Nginx
 
-> **Security note**: The Docker socket is mounted with `:rw` access — a known risk. Production hardening would involve a Docker Socket Proxy to restrict API surface.
+> **Security note**: The Docker socket is no longer mounted into the dashboard. Only a filtering proxy (`wollomatic/socket-proxy`) touches it, and it allows just the calls the dashboard needs: list, inspect, stats, image inspect, and start/stop/restart. Everything else (create, exec, delete) returns 403 and is logged. Remaining risk: a compromised dashboard can still stop or restart containers.
 
 ## Quick Start
 
@@ -206,7 +207,7 @@ All secrets are managed with **SOPS + age**. No plaintext credentials exist in t
 - [x] Complete bots/ stack — automated DB backup bot with Telegram delivery
 - [x] DevOps dashboard with container management and real-time metrics
 - [ ] Add shellcheck workflow for shell scripts
-- [ ] Docker Socket Proxy to harden dashboard security
+- [x] Docker Socket Proxy to harden dashboard security
 - [ ] Complete documentation (runbooks, disaster recovery, postmortems)
 - [ ] Kubernetes migration path
 
