@@ -118,7 +118,7 @@ Gnode-Platform/
 | Vaultwarden | vaultwarden | 10.5.0.50 |
 | Nextcloud | nextcloud | 10.5.0.51 |
 | Immich Server | immich-server | 10.5.0.52 |
-| DB Backup Bot | gnode-db-backup | 10.5.0.70 |
+| DB Backup Bot | gnode-db-backup | 10.5.0.71 |
 | Node Exporter | node-exporter | 10.5.0.80 |
 | cAdvisor | cadvisor | 10.5.0.81 |
 | Prometheus | prometheus | 10.5.0.82 |
