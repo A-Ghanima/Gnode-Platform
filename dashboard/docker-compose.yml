@@ -1,13 +1,37 @@
 services:
+  socket-proxy:
+    image: wollomatic/socket-proxy:1
+    container_name: gnode-dashboard-socket-proxy
+    user: "65534:102"
+    restart: always
+    command:
+      - '-loglevel=info'
+      - '-listenip=0.0.0.0'
+      - '-allowfrom=10.5.0.100/32'
+      - '-allowGET=/(v1\.[0-9]+/)?(version|containers/json|containers/[a-zA-Z0-9_.-]+/(json|stats)|images/[a-zA-Z0-9:_.-]+/json)'
+      - '-allowPOST=/v1\.[0-9]+/containers/[a-zA-Z0-9_.-]+/(start|stop|restart)'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    security_opt:
+      - no-new-privileges
+    read_only: true
+    labels:
+      - "gnode.group=dashboard"
+    networks:
+      main_net:
+        ipv4_address: 10.5.0.102
+
   backend:
     build: ./backend
     container_name: gnode-dashboard-backend
     restart: always
     env_file: ./backend/.env
+    environment:
+      - DOCKER_HOST=tcp://10.5.0.102:2375
     labels:
       - "gnode.group=dashboard"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:rw
+    depends_on:
+      - socket-proxy
     networks:
       main_net:
         ipv4_address: 10.5.0.100
